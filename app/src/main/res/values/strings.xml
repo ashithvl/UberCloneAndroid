@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">UberClone</string>
+    <string name="looking_for_the_rider_app">LOOKING FOR THE RIDER APP?</string>
+    <string name="partner">PARTNER</string>
+    <string name="u_b_e_r">U B E R</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="register">REGISTER</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="please_register">Please use email id to Register</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_enter_email_address">Please Enter Email Address</string>
+    <string name="please_enter_password">Please Enter Password</string>
+    <string name="password_too_short">Password too Short!</string>
+    <string name="please_enter_name">Please Enter Name</string>
+    <string name="please_enter_phone">Please Enter Phone</string>
+    <string name="registration_sucessful">Registration Successful !!!</string>
+    <string name="failed_to_register">Failed to Register</string>
+    <string name="failed_to_login">Failed to Login</string>
+    <string name="login">Login</string>
+</resources>
