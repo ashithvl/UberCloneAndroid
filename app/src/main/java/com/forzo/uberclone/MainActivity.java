@@ -1,20 +1,20 @@
 package com.forzo.uberclone;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.forzo.uberclone.model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
+import com.forzo.uberclone.model.WelcomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,6 +23,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.root_relative_layout)
     RelativeLayout root_relative_layout;
+    @BindView(R.id.btn_sign_up)
+    Button btnSignUp;
+    @BindView(R.id.btn_register)
+    Button btnRegister;
     private FirebaseAuth auth;
     private FirebaseDatabase db;
     private DatabaseReference users;
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSignUpDialog() {
+        AlertDialog waitingDialog = new SpotsDialog(MainActivity.this);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle(getString(R.string.register));
         dialog.setMessage(R.string.please_register);
@@ -91,8 +97,13 @@ public class MainActivity extends AppCompatActivity {
         dialog.setView(login_layout);
 
         //set positive button
-        dialog.setPositiveButton(getString(R.string.login), (DialogInterface dialogInterface, int which) -> {
+        dialog.setPositiveButton(getString(R.string.sign_in), (DialogInterface dialogInterface, int which) -> {
             dialogInterface.dismiss();
+
+            //disable sign in when processing
+            btnSignUp.setEnabled(false);
+
+            waitingDialog.show();
 
             if (TextUtils.isEmpty(edtEmail.getText().toString())) {
                 Snackbar.make(root_relative_layout, getString(R.string.please_enter_email_address), Snackbar.LENGTH_LONG)
@@ -113,17 +124,28 @@ public class MainActivity extends AppCompatActivity {
             }
 
             auth.signInWithEmailAndPassword(edtEmail.getText().toString(), edtPassword.getText().toString())
-                    .addOnSuccessListener(authResult ->
-                            startActivity(new Intent(MainActivity.this, WelcomeActivity.class)))
-                    .addOnFailureListener(e -> Snackbar.make(root_relative_layout,
-                            R.string.failed_to_login + e.getMessage(), Snackbar.LENGTH_LONG)
-                            .show());
+                    .addOnSuccessListener(authResult -> {
+                        waitingDialog.hide();
+                        startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
+                        finish();
+                    })
+                    .addOnFailureListener(e -> {
+                        Snackbar.make(root_relative_layout,
+                                R.string.failed_to_login + e.getMessage(), Snackbar.LENGTH_LONG)
+                                .show();
+                        waitingDialog.hide();
+
+                        //enable sign in on clicking cancel
+                        btnSignUp.setEnabled(true);
+
+                    });
 
         });
 
         //set negative button
         dialog.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
             dialogInterface.dismiss();
+
         });
 
         dialog.show();
