@@ -26,4 +26,9 @@
     <string name="you">You</string>
     <string name="this_device_is_not_supported">This device is not Supported</string>
     <string name="user">USER</string>
+    <string name="go">GO</string>
+    <string name="enter_a_pick_location">Enter a pick Location</string>
+    <string name="direction_api_key">AIzaSyAVskjjVS53g3O1VklYnEev5Y-6xk3zUEw</string>
+    <string name="pick_up_location">PickUp Location</string>
+    <string name="your_location">Your Location</string>
 </resources>

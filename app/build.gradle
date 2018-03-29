@@ -53,6 +53,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     //Android AlertDialog with moving dots progress indicator
     compile 'com.github.d-max:spots-dialog:0.7@aar'
+    //network library
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.4.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
